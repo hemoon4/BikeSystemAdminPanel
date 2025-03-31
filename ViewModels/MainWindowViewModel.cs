@@ -2,5 +2,5 @@
 
 public partial class MainWindowViewModel : ViewModelBase
 {
-    public string Greeting { get; } = "Welcome to Avalonia!";
+    public string SQLiteVersion { get; } = "SQLite version is unknown";
 }
