@@ -15,8 +15,8 @@
         <vm:MainWindowViewModel/>
     </Design.DataContext>
     <StackPanel>
-        <TextBlock x:Name="SQLiteVersionText" Text="{Binding SQLiteVersion}" HorizontalAlignment="Center" VerticalAlignment="Center"/>
-        <Button Click="GetVersion">Click to get SQLITE version</Button>
-        <ListBox x:Name="Bicycles" />
+        <TextBlock Text="{Binding SQLiteVersion}" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+        <Button Command="{Binding CreateSchemaAndGetStation}">Click to get SQLITE version and stations</Button>
+        <ListBox  ItemsSource="{Binding Stations}" />
     </StackPanel>
 </Window>

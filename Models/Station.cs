@@ -5,14 +5,13 @@ using System.Threading.Tasks;
 
 namespace BikeSystemAdminPanel.Models
 {
-    public class Bicycle
+    public class Station
     {
         public int Id { get; init; }
-        public string Name { get; set; } = string.Empty;
-        public string Type { get; set; } = string.Empty;
-        public int StationId { get; init; }
+        public string Address {get; set; }
+        public int NumberOfBicyclesHold { get; set; }
         public override string ToString() {
-            return $"{Id} {Name} {Type}";
+            return $"{Id} {Address} {NumberOfBicyclesHold}";
         }
     }
 }
