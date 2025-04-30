@@ -14,9 +14,17 @@
              to set the actual DataContext for runtime, set the DataContext property in code (look at App.axaml.cs) -->
         <vm:MainWindowViewModel/>
     </Design.DataContext>
-    <StackPanel>
-        <TextBlock Text="{Binding SQLiteVersion}" HorizontalAlignment="Center" VerticalAlignment="Center"/>
-        <Button Command="{Binding CreateSchemaAndGetStation}">Click to get SQLITE version and stations</Button>
-        <ListBox  ItemsSource="{Binding Stations}" />
-    </StackPanel>
+    <SplitView IsPaneOpen="True"
+               OpenPaneLength="200"
+               DisplayMode="Inline" >
+        <SplitView.Pane>
+
+        </SplitView.Pane>
+        <SplitView.Content>
+            <!-- TODO add list items, when item selected -> change page -->
+            <ListBox>
+            </ListBox>
+        </SplitView.Content>
+            <TransitioningContentControl Content="{Binding CurrentSplitViewContent}"/>
+    </SplitView>
 </Window>
