@@ -6,7 +6,45 @@
         mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
         x:Class="BikeSystemAdminPanel.Views.UsersPageView"
         x:DataType="vm:UsersPageViewModel">
-    <StackPanel>
-        <TextBlock Text="Users page" HorizontalAlignment="Center" VerticalAlignment="Center"/>
-    </StackPanel>
+    <DockPanel Margin="10">
+        <StackPanel Orientation="Vertical" DockPanel.Dock="Top" Margin="0 0 0 10">
+            <StackPanel.Styles>
+                <Style Selector="TextBlock.valid">
+                    <Setter Property="Foreground" Value="Green" />
+                </Style>
+                <Style Selector="TextBlock.notvalid">
+                    <Setter Property="Foreground" Value="Red" />
+                </Style>
+            </StackPanel.Styles>    
+            <StackPanel Orientation="Horizontal" Margin="0 0 0 5">
+                <TextBox Width="150" Margin="0 0 10 0" Watermark="Phone Number" Text="{Binding NewUser.PhoneNumber}" />
+                <TextBox Width="150" Margin="0 0 10 0" Watermark="Name" Text="{Binding NewUser.Name}" />
+                <TextBox Width="150" Margin="0 0 10 0" Watermark="Surname" Text="{Binding NewUser.Surname}" />
+                <Button Content="Add" Command="{Binding AddUserCommand}" />
+            </StackPanel>
+
+            <TextBlock Classes.valid = "{Binding IsStatusSuccess}" 
+                       Classes.notvalid = "{Binding !IsStatusSuccess}"
+                       Text="{Binding StatusMessage}" 
+                       FontWeight="Bold">
+            </TextBlock>
+        </StackPanel>
+        
+        <DataGrid ItemsSource="{Binding Users}" AutoGenerateColumns="False" IsReadOnly="False" Tag="{Binding}">
+            <DataGrid.Columns>
+                <DataGridTextColumn Header="Phone Number" Binding="{Binding PhoneNumber}" IsReadOnly="True" />
+                <DataGridTextColumn Header="Name" Binding="{Binding Name}" />
+                <DataGridTextColumn Header="Surname" Binding="{Binding Surname}" />
+                <DataGridTemplateColumn Header="Actions">
+                <DataGridTemplateColumn.CellTemplate>
+                    <DataTemplate>
+                        <Button Content="Delete"
+                                Command="{Binding Path=((vm:UsersPageViewModel)DataContext).DeleteUserCommand, RelativeSource={RelativeSource AncestorType={x:Type DataGrid}}}"
+                                CommandParameter="{Binding}" />
+                    </DataTemplate>
+                </DataGridTemplateColumn.CellTemplate>
+                </DataGridTemplateColumn>
+            </DataGrid.Columns>
+        </DataGrid>
+    </DockPanel>
 </UserControl>

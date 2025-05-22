@@ -17,7 +17,7 @@ public partial class MainWindowViewModel : ViewModelBase
     public ObservableCollection<Station> _stations = [new Station{Id = 1}];
 
     [ObservableProperty]
-    public ViewModelBase _currentSplitViewContent = new RentalsPageViewModel();
+    public ViewModelBase _currentSplitViewContent = new UsersPageViewModel();
 
     [RelayCommand]
     public void CreateSchemaAndGetStation()
