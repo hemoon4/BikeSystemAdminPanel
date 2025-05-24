@@ -1,12 +1,25 @@
 <UserControl xmlns="https://github.com/avaloniaui"
-        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-        xmlns:vm="using:BikeSystemAdminPanel.ViewModels"
-        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
-        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-        mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
-        x:Class="BikeSystemAdminPanel.Views.RentalsPageView"
-        x:DataType="vm:RentalsPageViewModel">
-    <StackPanel>
-        <TextBlock Text="Rentals page" HorizontalAlignment="Center" VerticalAlignment="Center"/>
-    </StackPanel>
+            xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+            xmlns:vm="using:BikeSystemAdminPanel.ViewModels"
+            xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+            xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+            mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
+            x:Class="BikeSystemAdminPanel.Views.RentalsPageView"
+            x:DataType="vm:RentalsPageViewModel">
+    <DockPanel Margin="10">
+        <DataGrid ItemsSource="{Binding Rentals}" AutoGenerateColumns="False" IsReadOnly="False" Tag="{Binding}">
+            <DataGrid.Columns>
+                <DataGridTextColumn Header="ID" Binding="{Binding Id}" IsReadOnly="True" />
+                <DataGridTextColumn Header="Start Time" Binding="{Binding StartTime}" />
+                <DataGridTextColumn Header="End Time" Binding="{Binding EndTime}" />
+                <DataGridTextColumn Header="User Phone" Binding="{Binding UserPhoneNumber}" />
+                <DataGridTextColumn Header="Station ID" Binding="{Binding StationId}" />
+                <DataGridTextColumn Header="Bicycle ID" Binding="{Binding BicycleId}" />
+                <DataGridTemplateColumn Header="Actions">
+                    <DataGridTemplateColumn.CellTemplate>
+                    </DataGridTemplateColumn.CellTemplate>
+                </DataGridTemplateColumn>
+            </DataGrid.Columns>
+        </DataGrid>
+    </DockPanel>
 </UserControl>

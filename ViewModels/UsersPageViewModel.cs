@@ -84,10 +84,7 @@ namespace BikeSystemAdminPanel.ViewModels
 
             await _repository.DeleteUserAsync(user.PhoneNumber).ConfigureAwait(false);
 
-            await Avalonia.Threading.Dispatcher.UIThread.InvokeAsync(() =>
-            {
-                Users.Remove(user);
-            });
+            Users.Remove(user);
         }
     }
 }

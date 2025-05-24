@@ -15,7 +15,7 @@
                 <Style Selector="TextBlock.notvalid">
                     <Setter Property="Foreground" Value="Red" />
                 </Style>
-            </StackPanel.Styles>    
+            </StackPanel.Styles>
             <StackPanel Orientation="Horizontal" Margin="0 0 0 5">
                 <TextBox Width="150" Margin="0 0 10 0" Watermark="Phone Number" Text="{Binding NewUser.PhoneNumber}" />
                 <TextBox Width="150" Margin="0 0 10 0" Watermark="Name" Text="{Binding NewUser.Name}" />
@@ -23,13 +23,13 @@
                 <Button Content="Add" Command="{Binding AddUserCommand}" />
             </StackPanel>
 
-            <TextBlock Classes.valid = "{Binding IsStatusSuccess}" 
+            <TextBlock Classes.valid = "{Binding IsStatusSuccess}"
                        Classes.notvalid = "{Binding !IsStatusSuccess}"
-                       Text="{Binding StatusMessage}" 
+                       Text="{Binding StatusMessage}"
                        FontWeight="Bold">
             </TextBlock>
         </StackPanel>
-        
+
         <DataGrid ItemsSource="{Binding Users}" AutoGenerateColumns="False" IsReadOnly="False" Tag="{Binding}">
             <DataGrid.Columns>
                 <DataGridTextColumn Header="Phone Number" Binding="{Binding PhoneNumber}" IsReadOnly="True" />
