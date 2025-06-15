@@ -1,4 +1,6 @@
 using Avalonia.Controls;
+using Avalonia.Interactivity;
+using BikeSystemAdminPanel.ViewModels;
 
 namespace BikeSystemAdminPanel.Views
 {
@@ -7,6 +9,16 @@ namespace BikeSystemAdminPanel.Views
         public RentalsPageView()
         {
             InitializeComponent();
+            this.Loaded += OnLoaded;
+        }
+
+        private async void OnLoaded(object? sender, RoutedEventArgs e)
+        {
+            if (DataContext is RentalsPageViewModel vm)
+            {
+                
+                await vm.LoadRentals();
+            }
         }
     }
 }

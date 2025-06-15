@@ -8,23 +8,25 @@
         x:DataType="vm:MainWindowViewModel"
         Icon="/Assets/avalonia-logo.ico"
         Title="BikeSystemAdminPanel">
-
     <Design.DataContext>
-        <!-- This only sets the DataContext for the previewer in an IDE,
-             to set the actual DataContext for runtime, set the DataContext property in code (look at App.axaml.cs) -->
         <vm:MainWindowViewModel/>
     </Design.DataContext>
     <SplitView IsPaneOpen="True"
                OpenPaneLength="200"
-               DisplayMode="Inline" >
+               DisplayMode="Inline">
         <SplitView.Pane>
-
+            <ListBox SelectionMode="Single"
+                     SelectedItem="{Binding SelectedMenuItem}"
+                     ItemsSource="{Binding MenuItems}">
+                <ListBox.ItemTemplate>
+                    <DataTemplate>
+                        <TextBlock Text="{Binding}" />
+                    </DataTemplate>
+                </ListBox.ItemTemplate>
+            </ListBox>
         </SplitView.Pane>
         <SplitView.Content>
-            <!-- TODO add list items, when item selected -> change page -->
-            <ListBox>
-            </ListBox>
-        </SplitView.Content>
             <TransitioningContentControl Content="{Binding CurrentSplitViewContent}"/>
+        </SplitView.Content>
     </SplitView>
 </Window>
