@@ -1,0 +1,51 @@
+<!-- <UserControl xmlns="https://github.com/avaloniaui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:vm="clr-namespace:BikeSystemAdminPanel.ViewModels"
+             xmlns:lvc="using:LiveChartsCore.SkiaSharpView.Avalonia"
+             mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
+             >
+    <StackPanel Margin="10">
+        <TextBlock Text="Home" FontSize="24" HorizontalAlignment="Center" Margin="0 0 0 10"/>
+    <lvc:CartesianChart>
+
+        <lvc:CartesianChart.Series>
+            <lvc:XamlColumnSeries
+                IsHoverable="False"
+                Values="{Binding Values1}"
+                Fill="{lvc:SolidColorPaint Color='#32b4b4b4'}"
+                IgnoresBarPosition="True"/>
+            <lvc:XamlColumnSeries
+                Values="{Binding Values2}"
+                IgnoresBarPosition="True"/>
+        </lvc:CartesianChart.Series>
+
+        <lvc:CartesianChart.YAxes>
+            <lvc:XamlAxis
+                MinLimit="0"
+                MaxLimit="10"/>
+        </lvc:CartesianChart.YAxes>
+
+    </lvc:CartesianChart>
+    </StackPanel>
+</UserControl> -->
+
+<UserControl
+    xmlns="https://github.com/avaloniaui"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:vm="using:BikeSystemAdminPanel.ViewModels"
+    xmlns:lvc="using:LiveChartsCore.SkiaSharpView.Avalonia"
+    xmlns:sys="clr-namespace:System;assembly=netstandard"
+    xmlns:scg="clr-namespace:System.Collections.Generic;assembly=netstandard"
+    x:Class="BikeSystemAdminPanel.Views.HomePageView"
+    x:DataType="vm:HomePageViewModel">
+    <lvc:CartesianChart 
+        TooltipPosition="Hidden"
+        Series="{Binding Series}"
+        XAxes="{Binding XAxes}"
+        YAxes="{Binding YAxes}">
+    </lvc:CartesianChart>
+
+
+</UserControl>
