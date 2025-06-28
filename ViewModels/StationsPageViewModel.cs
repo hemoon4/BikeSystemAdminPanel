@@ -44,10 +44,11 @@ namespace BikeSystemAdminPanel.ViewModels
         {
             StatusMessage = string.Empty;
 
-            if (string.IsNullOrWhiteSpace(NewStation.Address) ||
+            if (string.IsNullOrWhiteSpace(NewStation.Name) ||
+                string.IsNullOrWhiteSpace(NewStation.Address) ||
                 NewStation.NumberOfBicyclesHold < 0)
             {
-                StatusMessage = "Address is required, and Number of Bicycles Held must be non-negative.";
+                StatusMessage = "Name and Address are required, and Number of Bicycles Held must be non-negative.";
                 IsStatusSuccess = false;
                 return;
             }

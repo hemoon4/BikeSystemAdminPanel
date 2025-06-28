@@ -22,7 +22,7 @@ namespace BikeSystemAdminPanel.Database
             connection.Execute(@"
                 CREATE TABLE IF NOT EXISTS Stations (
                     id INTEGER PRIMARY KEY AUTOINCREMENT,
-                    name TEXT,
+                    name TEXT NOT NULL,
                     address TEXT NOT NULL,
                     numberOfBicyclesHold INT NOT NULL
                 )");
