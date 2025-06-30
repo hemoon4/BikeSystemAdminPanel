@@ -16,10 +16,8 @@ namespace BikeSystemAdminPanel.Views
 
         private async void OnLoaded(object? sender, RoutedEventArgs e)
         {
-            Console.WriteLine("OnLoaded called");
             if (DataContext is HomePageViewModel vm)
             {
-                Console.WriteLine("loading chart");
                 await vm.LoadChart();
             }
         }

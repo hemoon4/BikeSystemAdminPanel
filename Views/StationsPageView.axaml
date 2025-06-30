@@ -20,7 +20,6 @@
             <StackPanel Orientation="Horizontal" Margin="0 0 0 5">
                 <TextBox Width="150" Margin="0 0 10 0" Watermark="Name" Text="{Binding NewStation.Name}" />
                 <TextBox Width="150" Margin="0 0 10 0" Watermark="Address" Text="{Binding NewStation.Address}" />
-                <NumericUpDown Width="150" Margin="0 0 10 0" Minimum="0" Value="{Binding NewStation.NumberOfBicyclesHold}" />
                 <Button Content="Add" Command="{Binding AddStationCommand}" />
             </StackPanel>
 

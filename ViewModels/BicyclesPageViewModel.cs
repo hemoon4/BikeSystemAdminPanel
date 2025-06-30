@@ -11,24 +11,49 @@ namespace BikeSystemAdminPanel.ViewModels
     public partial class BicyclesPageViewModel : ViewModelBase
     {
         private readonly IBicycleRepository _repository;
+        private readonly IStationRepository _stationRepository;
 
         public BicyclesPageViewModel()
         {
             var dbPath = "data.db";
             _repository = new SqliteBicycleRepository(dbPath);
+            _stationRepository = new SqliteStationRepository(dbPath);
         }
 
         [ObservableProperty]
-        private ObservableCollection<Bicycle> _bicycles = new();
+        private ObservableCollection<Bicycle> _bicycles = [];
+
+        [ObservableProperty]
+        private ObservableCollection<Station> _stations = [];
 
         [ObservableProperty]
         private Bicycle _newBicycle = new();
+
+        [ObservableProperty]
+        private Station _selectedStation;
 
         [ObservableProperty]
         private string _statusMessage;
 
         [ObservableProperty]
         private bool _isStatusSuccess;
+
+        [ObservableProperty]
+        private ObservableCollection<string> _bicycleTypes = new()
+        {
+            "gravel",
+            "mountain",
+            "BMX",
+            "electric",
+            "hybrid",
+            "city",
+            "road",
+            "track",
+            "touring"
+        };
+
+        [ObservableProperty]
+        private string _selectedBicycleType;
 
         public async Task LoadBicycles()
         {
@@ -39,16 +64,25 @@ namespace BikeSystemAdminPanel.ViewModels
                 Bicycles.Add(bicycle);
         }
 
+        public async Task LoadStations()
+        {
+            var stations = await _stationRepository.GetAllStationsAsync().ConfigureAwait(false);
+
+            Stations.Clear();
+            foreach (var station in stations)
+                Stations.Add(station);
+        }
+
         [RelayCommand]
         private async Task AddBicycle()
         {
             StatusMessage = string.Empty;
 
             if (string.IsNullOrWhiteSpace(NewBicycle.Name) ||
-                string.IsNullOrWhiteSpace(NewBicycle.Type) ||
-                NewBicycle.StationId <= 0)
+                string.IsNullOrWhiteSpace(SelectedBicycleType) ||
+                SelectedStation == null)
             {
-                StatusMessage = "All fields are required, and Station ID must be a positive number.";
+                StatusMessage = "All fields are required, and Station must be selected.";
                 IsStatusSuccess = false;
                 return;
             }
@@ -56,17 +90,18 @@ namespace BikeSystemAdminPanel.ViewModels
             var bicycleToAdd = new Bicycle
             {
                 Name = NewBicycle.Name,
-                Type = NewBicycle.Type,
-                StationId = NewBicycle.StationId
+                Type = SelectedBicycleType,
+                StationId = SelectedStation.Id
             };
 
             await _repository.AddBicycleAsync(bicycleToAdd);
 
-            Bicycles.Add(bicycleToAdd);
-
             StatusMessage = "Bicycle added successfully.";
             IsStatusSuccess = true;
             NewBicycle = new Bicycle();
+            SelectedStation = null;
+
+            await LoadBicycles();
         }
 
         [RelayCommand]

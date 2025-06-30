@@ -70,11 +70,11 @@ namespace BikeSystemAdminPanel.ViewModels
 
             await _repository.AddUserAsync(userToAdd);
 
-            Users.Add(userToAdd);
-
             StatusMessage = "User added successfully.";
             IsStatusSuccess = true;
             NewUser = new User();
+
+            await LoadUsers();
         }
         
         [RelayCommand]

@@ -18,6 +18,7 @@ namespace BikeSystemAdminPanel.Views
             if (DataContext is BicyclesPageViewModel vm)
             {
                 await vm.LoadBicycles();
+                await vm.LoadStations();
             }
         }
     }

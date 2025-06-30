@@ -36,7 +36,9 @@ namespace BikeSystemAdminPanel.ViewModels
 
             Stations.Clear();
             foreach (var station in stations)
+            {
                 Stations.Add(station);
+            }
         }
 
         [RelayCommand]
@@ -57,16 +59,16 @@ namespace BikeSystemAdminPanel.ViewModels
             {
                 Name = NewStation.Name,
                 Address = NewStation.Address,
-                NumberOfBicyclesHold = NewStation.NumberOfBicyclesHold
+                NumberOfBicyclesHold = 0
             };
 
             await _repository.AddStationAsync(stationToAdd);
 
-            Stations.Add(stationToAdd);
-
             StatusMessage = "Station added successfully.";
             IsStatusSuccess = true;
             NewStation = new Station();
+
+            await LoadStations();
         }
 
         [RelayCommand]
