@@ -11,8 +11,5 @@ namespace BikeSystemAdminPanel.Models
         public string Name { get; set; } = string.Empty;
         public string Type { get; set; } = string.Empty;
         public int StationId { get; init; }
-        public override string ToString() {
-            return $"{Id} {Name} {Type}";
-        }
     }
 }

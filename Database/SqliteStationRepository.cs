@@ -26,6 +26,28 @@ namespace BikeSystemAdminPanel.Database
                     address TEXT NOT NULL,
                     numberOfBicyclesHold INT NOT NULL
                 )");
+
+            connection.Execute(@"
+                CREATE TRIGGER IF NOT EXISTS UpdateBicycleCount
+                AFTER INSERT ON Bicycles
+                FOR EACH ROW
+                BEGIN
+                    UPDATE Stations
+                    SET numberOfBicyclesHold = numberOfBicyclesHold + 1
+                    WHERE id = NEW.stationId;
+                END;"
+                );
+            
+            connection.Execute(@"
+                CREATE TRIGGER IF NOT EXISTS DecreaseBicycleCount
+                AFTER DELETE ON Bicycles
+                FOR EACH ROW
+                BEGIN
+                    UPDATE Stations
+                    SET numberOfBicyclesHold = numberOfBicyclesHold - 1
+                    WHERE id = OLD.stationId;
+                END;
+                ");
         }
 
         public async Task<List<Station>> GetAllStationsAsync()
