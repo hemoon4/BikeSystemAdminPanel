@@ -1,17 +1,22 @@
 using System;
 using System.Linq;
+using System.IO; 
+using System.Text;
 using System.Threading.Tasks;
 using CommunityToolkit.Mvvm.ComponentModel;
+using CommunityToolkit.Mvvm.Input;
 using SkiaSharp;
 using LiveChartsCore;
 using LiveChartsCore.Defaults;
 using LiveChartsCore.SkiaSharpView;
 using LiveChartsCore.SkiaSharpView.Painting;
 using BikeSystemAdminPanel.Database;
+using BikeSystemAdminPanel.Services;
 using System.Collections.ObjectModel;
-using LiveChartsCore.Drawing;
-using LiveChartsCore.Measure;
 using System.Collections.Generic;
+using Avalonia.Controls;
+using Avalonia.Platform.Storage;
+using Microsoft.Extensions.DependencyInjection;
 
 namespace BikeSystemAdminPanel.ViewModels
 {
@@ -34,6 +39,12 @@ namespace BikeSystemAdminPanel.ViewModels
         [ObservableProperty]
         private List<Axis> _yAxes;
 
+        [ObservableProperty]
+        private string? _errorMessages;
+
+        private DateTime[] _chartDates;
+        private int[] _chartValues;
+
         public async Task LoadChart()
         {
             var rentals = await _repository.GetAllRentalsAsync().ConfigureAwait(false);
@@ -48,60 +59,79 @@ namespace BikeSystemAdminPanel.ViewModels
                                          .OrderBy(x => x.Date);
 
             var daysInMonth = lastDay.Day;
-            var values = new int[daysInMonth];
-            
+            _chartValues = new int[daysInMonth];
+            _chartDates = new DateTime[daysInMonth];
+
+            // Initialize dates for all days in the month
+            for (int i = 0; i < daysInMonth; i++)
+            {
+                _chartDates[i] = firstDay.AddDays(i);
+            }
+
+            // Populate chart values
             foreach (var g in grouped)
             {
-                values[g.Date.Day - 1] = g.Count;
+                int dayIndex = g.Date.Day - 1;
+                _chartValues[dayIndex] = g.Count;
             }
 
             Series = 
             [
                 new ColumnSeries<int>
                 {
-                    Values = values,
+                    Values = _chartValues,
                     Name = "Rentals per Day"
                 }
             ];
-            // FIXME: WHY AXIS DON'T SHOW???????
+
             XAxes = [
                 new Axis
                 {
-                    Labels = Enumerable.Range(1, daysInMonth).Select(d => d.ToString()).ToArray(),
+                    Labels = Enumerable.Range(1, daysInMonth).Select(d => d.ToString()).ToList(),
                     Name = "Day of Month",
-                    // LabelsPaint = new SolidColorPaint(SKColors.Black),
-                    // NamePaint = new SolidColorPaint(SKColors.Red),
-                    // TextSize = 12,
-                    // NamePadding = new Padding(10),
-                    // NameTextSize = 14,
-                    // Padding = new Padding(10),
-                    // LabelsDensity = 0,
-                    // Position = AxisPosition.Start,
-                    // ShowSeparatorLines = true,
-                    // SeparatorsAtCenter = true,
-                    // IsVisible = true
+                    TextSize = 12,
+                    ShowSeparatorLines = true
                 }
             ];
 
             YAxes = [
-
                 new Axis
                 {
-                    Labels = Enumerable.Range(1, daysInMonth).Select(d => d.ToString()).ToArray(),
                     Name = "Number of Rentals",
-                    // LabelsPaint = new SolidColorPaint(SKColors.Red),
-                    // NamePaint = new SolidColorPaint(SKColors.Red),
-                    // NamePadding = new Padding(10),
-                    // TextSize = 12,
-                    // NameTextSize = 14,
-                    // Padding = new Padding(10),
-                    // LabelsDensity = 0,
-                    // Position = AxisPosition.Start,
-                    // ShowSeparatorLines = true,
-                    // SeparatorsAtCenter = true,
-                    // IsVisible = true
+                    TextSize = 12,
+                    ShowSeparatorLines = true,
+                    MinLimit = 0
                 }
             ];
+        }
+
+        [RelayCommand]
+        private async Task ExportToCsv()
+        {
+            try
+            {
+                var filesService = App.Current?.Services?.GetService<IFilesService>();
+                if (filesService is null) throw new NullReferenceException("Missing File Service instance.");
+
+                var file = await filesService.SaveFileAsync();
+                if (file is null) return;
+
+                var csv = new StringBuilder();
+                csv.AppendLine("Date,Number of Rentals");
+                for (int i = 0; i < _chartDates.Length; i++)
+                {
+                    csv.AppendLine($"{_chartDates[i]:yyyy-MM-dd},{_chartValues[i]}");
+                }
+
+                var stream = new MemoryStream(Encoding.Default.GetBytes(csv.ToString()));
+                await using var writeStream = await file.OpenWriteAsync();
+                await stream.CopyToAsync(writeStream);
+
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine(e.Message);
+            }
         }
     }
 }

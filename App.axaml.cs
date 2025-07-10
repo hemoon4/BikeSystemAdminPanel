@@ -3,9 +3,12 @@ using Avalonia.Controls.ApplicationLifetimes;
 using Avalonia.Data.Core;
 using Avalonia.Data.Core.Plugins;
 using System.Linq;
+using System;
 using Avalonia.Markup.Xaml;
 using BikeSystemAdminPanel.ViewModels;
 using BikeSystemAdminPanel.Views;
+using BikeSystemAdminPanel.Services;
+using Microsoft.Extensions.DependencyInjection;
 
 namespace BikeSystemAdminPanel;
 
@@ -27,10 +30,18 @@ public partial class App : Application
             {
                 DataContext = new MainWindowViewModel(),
             };
+            var services = new ServiceCollection();
+            services.AddSingleton<IFilesService>(x => new FilesService(desktop.MainWindow));
+            Services = services.BuildServiceProvider();
         }
+
 
         base.OnFrameworkInitializationCompleted();
     }
+
+    public new static App? Current => Application.Current as App;
+    public IServiceProvider? Services { get; private set; }
+
 
     private void DisableAvaloniaDataAnnotationValidation()
     {

@@ -9,6 +9,7 @@
     x:DataType="vm:HomePageViewModel">
     <DockPanel Margin="10">
         <TextBlock DockPanel.Dock="Top" Text="Home" FontSize="24" HorizontalAlignment="Center" Margin="0 0 0 10"/>
+        <Button DockPanel.Dock="Bottom" Content="Export to CSV" Command="{Binding ExportToCsvCommand}" HorizontalAlignment="Center" Margin="0 10 0 0"/>
         <lvc:CartesianChart
             TooltipPosition="Hidden"
             MinWidth="400"
