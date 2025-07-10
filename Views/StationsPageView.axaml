@@ -28,8 +28,14 @@
                        Text="{Binding StatusMessage}"
                        FontWeight="Bold" />
         </StackPanel>
-
-        <DataGrid ItemsSource="{Binding Stations}" AutoGenerateColumns="False" IsReadOnly="False" Tag="{Binding}">
+        <TextBlock Text="No stations are currently added to the system."
+                        FontSize="16"
+                        Foreground="Gray"
+                        HorizontalAlignment="Center"
+                        VerticalAlignment="Center"
+                        IsVisible="{Binding IsStationsEmpty}"/>
+        <DataGrid ItemsSource="{Binding Stations}" AutoGenerateColumns="False" IsReadOnly="False" Tag="{Binding}" 
+                  IsVisible="{Binding !IsStationsEmpty}">
             <DataGrid.Columns>
                 <DataGridTextColumn Header="ID" Binding="{Binding Id}" IsReadOnly="True" />
                 <DataGridTextColumn Header="Name" Binding="{Binding Name}" />

@@ -68,6 +68,9 @@ namespace BikeSystemAdminPanel.ViewModels
         [ObservableProperty]
         private bool _isStatusSuccess;
 
+        [ObservableProperty]
+        private bool _isRentalsEmpty;
+
         public async Task LoadRentals()
         {
             var rentals = await _repository.GetAllRentalsAsync().ConfigureAwait(false);
@@ -131,42 +134,7 @@ namespace BikeSystemAdminPanel.ViewModels
             // foreach (var rentall in Rentals) {
             //     await _repository.AddRentalAsync(rentall);
             // }
-            await LoadUsers();
-            await LoadStations();
-            await LoadBicycles();
-        }
-
-        private async Task LoadUsers()
-        {
-            var users = await _userRepository.GetAllUsersAsync().ConfigureAwait(false);
-
-            Users.Clear();
-            foreach (var user in users)
-            {
-                Users.Add(user);
-            }
-        }
-
-        private async Task LoadStations()
-        {
-            var stations = await _stationRepository.GetAllStationsAsync().ConfigureAwait(false);
-
-            Stations.Clear();
-            foreach (var station in stations)
-            {
-                Stations.Add(station);
-            }
-        }
-
-        private async Task LoadBicycles()
-        {
-            var bicycles = await _bicycleRepository.GetAllBicyclesAsync().ConfigureAwait(false);
-
-            Bicycles.Clear();
-            foreach (var bicycle in bicycles)
-            {
-                Bicycles.Add(bicycle);
-            }
+            IsRentalsEmpty = Rentals == null || Rentals.Count == 0;
         }
     }
 }

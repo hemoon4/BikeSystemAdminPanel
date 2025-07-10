@@ -30,6 +30,9 @@ namespace BikeSystemAdminPanel.ViewModels
         [ObservableProperty]
         private bool _isStatusSuccess;
 
+        [ObservableProperty]
+        private bool _isStationsEmpty;
+
         public async Task LoadStations()
         {
             var stations = await _repository.GetAllStationsAsync().ConfigureAwait(false);
@@ -39,6 +42,7 @@ namespace BikeSystemAdminPanel.ViewModels
             {
                 Stations.Add(station);
             }
+            IsStationsEmpty = Stations == null || Stations.Count == 0;
         }
 
         [RelayCommand]
@@ -79,6 +83,7 @@ namespace BikeSystemAdminPanel.ViewModels
             await _repository.DeleteStationAsync(station.Id).ConfigureAwait(false);
 
             Stations.Remove(station);
+            IsStationsEmpty = Stations == null || Stations.Count == 0;
         }
     }
 }

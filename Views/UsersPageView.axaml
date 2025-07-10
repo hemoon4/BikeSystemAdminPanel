@@ -30,8 +30,14 @@
                        FontWeight="Bold">
             </TextBlock>
         </StackPanel>
-
-        <DataGrid ItemsSource="{Binding Users}" AutoGenerateColumns="False" IsReadOnly="False" Tag="{Binding}">
+        <TextBlock Text="No users are currently added to the system."
+                        FontSize="16"
+                        Foreground="Gray"
+                        HorizontalAlignment="Center"
+                        VerticalAlignment="Center"
+                        IsVisible="{Binding IsUsersEmpty}"/>
+        <DataGrid ItemsSource="{Binding Users}" AutoGenerateColumns="False" IsReadOnly="False" Tag="{Binding}"
+                  IsVisible="{Binding !IsUsersEmpty}">
             <DataGrid.Columns>
                 <DataGridTextColumn Header="Phone Number" Binding="{Binding PhoneNumber}" IsReadOnly="True" />
                 <DataGridTextColumn Header="Name" Binding="{Binding Name}" />

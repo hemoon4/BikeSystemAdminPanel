@@ -55,13 +55,19 @@ namespace BikeSystemAdminPanel.ViewModels
         [ObservableProperty]
         private string _selectedBicycleType;
 
+        [ObservableProperty]
+        private bool _isBicyclesEmpty;
+
         public async Task LoadBicycles()
         {
             var bicycles = await _repository.GetAllBicyclesAsync().ConfigureAwait(false);
 
             Bicycles.Clear();
-            foreach (var bicycle in bicycles)
+            foreach (var bicycle in bicycles) 
+            {
                 Bicycles.Add(bicycle);
+            }
+            IsBicyclesEmpty = Bicycles == null || Bicycles.Count == 0;
         }
 
         public async Task LoadStations()
@@ -70,7 +76,9 @@ namespace BikeSystemAdminPanel.ViewModels
 
             Stations.Clear();
             foreach (var station in stations)
+            {
                 Stations.Add(station);
+            }
         }
 
         [RelayCommand]
@@ -112,6 +120,8 @@ namespace BikeSystemAdminPanel.ViewModels
             await _repository.DeleteBicycleAsync(bicycle.Id).ConfigureAwait(false);
 
             Bicycles.Remove(bicycle);
+        
+            IsBicyclesEmpty = Bicycles == null || Bicycles.Count == 0;
         }
     }
 }

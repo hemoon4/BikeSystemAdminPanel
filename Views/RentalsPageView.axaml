@@ -8,7 +8,14 @@
             x:DataType="vm:RentalsPageViewModel">
     <DockPanel Margin="10">
         <TextBlock DockPanel.Dock="Top" Text="Rentals" FontSize="24" HorizontalAlignment="Center" Margin="0 0 0 10"/>
-        <DataGrid ItemsSource="{Binding Rentals}" AutoGenerateColumns="False" IsReadOnly="False" Tag="{Binding}">
+        <TextBlock Text="No rentals are currently added to the system."
+                        FontSize="16"
+                        Foreground="Gray"
+                        HorizontalAlignment="Center"
+                        VerticalAlignment="Center"
+                        IsVisible="{Binding IsRentalsEmpty}"/>
+        <DataGrid ItemsSource="{Binding Rentals}" AutoGenerateColumns="False" IsReadOnly="False" Tag="{Binding}"
+                  IsVisible="{Binding !IsRentalsEmpty}">
             <DataGrid.Columns>
                 <DataGridTextColumn Header="ID" Binding="{Binding Id}" IsReadOnly="True" />
                 <DataGridTextColumn Header="Start Time" Binding="{Binding StartTime}" />

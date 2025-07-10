@@ -31,6 +31,9 @@ namespace BikeSystemAdminPanel.ViewModels
         [ObservableProperty]
         private bool _isStatusSuccess;
 
+        [ObservableProperty]
+        private bool _isUsersEmpty;
+
         public async Task LoadUsers()
         {
             var users = await _repository.GetAllUsersAsync().ConfigureAwait(false);
@@ -38,6 +41,7 @@ namespace BikeSystemAdminPanel.ViewModels
             Users.Clear();
             foreach (var user in users)
                 Users.Add(user);
+            IsUsersEmpty = Users == null || Users.Count == 0;
         }
 
         [RelayCommand]
@@ -85,6 +89,7 @@ namespace BikeSystemAdminPanel.ViewModels
             await _repository.DeleteUserAsync(user.PhoneNumber).ConfigureAwait(false);
 
             Users.Remove(user);
+            IsUsersEmpty = Users == null || Users.Count == 0;
         }
     }
 }

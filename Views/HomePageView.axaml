@@ -13,7 +13,7 @@
                     HorizontalAlignment="Center"
                     Margin="0 0 0 10"
                     DockPanel.Dock="Top">
-            <TextBlock Text="Select Chart Type:"
+            <TextBlock Text="Select Monthly Summary:"
                        VerticalAlignment="Center"
                        Margin="0 0 10 0"/>
             <ComboBox Width="200"
