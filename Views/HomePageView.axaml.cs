@@ -21,5 +21,12 @@ namespace BikeSystemAdminPanel.Views
                 await vm.LoadChart();
             }
         }
+        private async void OnChartTypeChanged(object? sender, SelectionChangedEventArgs e)
+        {
+            if (DataContext is HomePageViewModel vm && e.AddedItems.Count > 0)
+            {
+                await vm.LoadChart();
+            }
+        }
     }
 }
