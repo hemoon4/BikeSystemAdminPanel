@@ -40,11 +40,11 @@ namespace BikeSystemAdminPanel.Database
             return rentals.AsList();
         }
 
-        public async Task AddRentalAsync(Rental rental)
+        public async Task<int> AddRentalAsync(Rental rental)
         {
             using var connection = new SQLiteConnection(_connectionString);
-            await connection.ExecuteAsync(
-                "INSERT INTO Rentals (startTime, endTime, userPhoneNumber, stationId, bicycleId) VALUES (@StartTime, @EndTime, @UserPhoneNumber, @StationId, @BicycleId)",
+            return await connection.ExecuteScalarAsync<int>(
+                "INSERT INTO Rentals (startTime, endTime, userPhoneNumber, stationId, bicycleId) VALUES (@StartTime, @EndTime, @UserPhoneNumber, @StationId, @BicycleId); SELECT last_insert_rowid();",
                 rental);
         }
 

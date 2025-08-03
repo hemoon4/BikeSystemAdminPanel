@@ -7,7 +7,7 @@ namespace BikeSystemAdminPanel.Database
     public interface IRentalRepository
     {
         Task<List<Rental>> GetAllRentalsAsync();
-        Task AddRentalAsync(Rental rental);
+        Task<int> AddRentalAsync(Rental rental);
         Task DeleteRentalAsync(int id);
     }
 }

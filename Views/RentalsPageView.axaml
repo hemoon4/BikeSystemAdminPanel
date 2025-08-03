@@ -8,6 +8,19 @@
             x:DataType="vm:RentalsPageViewModel">
     <DockPanel Margin="10">
         <TextBlock DockPanel.Dock="Top" Text="Rentals" FontSize="24" HorizontalAlignment="Center" Margin="0 0 0 10"/>
+        <StackPanel DockPanel.Dock="Bottom" Orientation="Vertical" HorizontalAlignment="Center" Spacing="10" Margin="0 10 0 0">
+            <StackPanel.Styles>
+                <Style Selector="TextBlock.valid">
+                    <Setter Property="Foreground" Value="Green" />
+                </Style>
+                <Style Selector="TextBlock.notvalid">
+                    <Setter Property="Foreground" Value="Red" />
+                </Style>
+            </StackPanel.Styles>
+            <Button Content="Simulate Rental" Command="{Binding SimulateRentalCommand}" />
+            <TextBlock Text="{Binding StatusMessage}" FontSize="14" HorizontalAlignment="Center" Classes.valid = "{Binding IsStatusSuccess}"
+                       Classes.notvalid = "{Binding !IsStatusSuccess}"/>
+        </StackPanel>
         <TextBlock Text="No rentals are currently added to the system."
                         FontSize="16"
                         Foreground="Gray"

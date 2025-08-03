@@ -95,7 +95,6 @@ namespace BikeSystemAdminPanel.ViewModels
 
                     foreach (var g in grouped)
                     {
-                        Console.WriteLine($"Date: {g.Date}, Count: {g.Count}");
                         int dayIndex = g.Date.Day - 1;
                         _chartValues[dayIndex] = g.Count;
                     }
@@ -126,14 +125,19 @@ namespace BikeSystemAdminPanel.ViewModels
                 else
                 {
                     var stations = await _stationRepository.GetAllStationsAsync().ConfigureAwait(false);
-                    var grouped = thisMonthRentals.GroupBy(r => r.StationId)
-                                                 .Select(g => new
-                                                 {
-                                                     StationId = g.Key,
-                                                     Count = g.Count(),
-                                                     StationName = stations.FirstOrDefault(s => s.Id == g.Key)?.Name ?? $"Station {g.Key}"
-                                                 })
-                                                 .ToList();
+
+                    var grouped = stations
+                                    .GroupJoin(
+                                        thisMonthRentals,
+                                        station => station.Id,
+                                        rental => rental.StationId,
+                                        (station, rentals) => new
+                                        {
+                                            StationId = station.Id,
+                                            StationName = station.Name,
+                                            Count = rentals.Count()
+                                        })
+                                    .ToList();
 
                     _chartValues = grouped.Select(g => g.Count).ToArray();
                     _chartLabels = grouped.Select(g => g.StationName).ToArray();
@@ -220,7 +224,7 @@ namespace BikeSystemAdminPanel.ViewModels
             }
             catch (Exception e)
             {
-                Console.WriteLine(e.Message);
+                Console.WriteLine($"Exception: {e.Message}");
             }
         }
     }
