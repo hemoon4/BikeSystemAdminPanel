@@ -24,10 +24,12 @@ namespace BikeSystemAdminPanel.ViewModels
     {
         private readonly IRentalRepository _rentalRepository;
         private readonly IStationRepository _stationRepository;
+        private readonly IBicycleRepository _bicycleRepository;
 
         public HomePageViewModel()
         {
             var dbPath = "data.db";
+            _bicycleRepository = new SqliteBicycleRepository(dbPath);
             _rentalRepository = new SqliteRentalRepository(dbPath);
             _stationRepository = new SqliteStationRepository(dbPath);
         }
